@@ -194,4 +194,15 @@
 		(thermal_gap 0.254)
 		(uuid "b8a22d0b-2718-4ea3-a5c6-a6aca6a9da41")
 	)
+	(model "C:/src/kicad-library/mcad/hammond_560G.STEP"
+		(offset
+			(xyz -21.195 -16.3 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
 )
