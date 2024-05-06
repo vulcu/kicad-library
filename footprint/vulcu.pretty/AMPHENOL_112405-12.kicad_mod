@@ -154,4 +154,15 @@
 		(thermal_gap 0.254)
 		(uuid "50f38088-9813-45cd-a1c1-963d3a47431d")
 	)
+	(model "C:/src/kicad-library/mcad/amphenol_112405-12.stp"
+		(offset
+			(xyz 0 0 13.7)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 -90 0)
+		)
+	)
 )
