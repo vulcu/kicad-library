@@ -1,0 +1,9 @@
+* PSpice Model
+*$
+*PART NUMBER:NULL
+*Null Compnenet
+*Version:1
+********************************************
+.SUBCKT NULL
+
+.ENDS NULL

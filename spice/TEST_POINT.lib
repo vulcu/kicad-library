@@ -1,0 +1,11 @@
+* PSpice Model
+*$
+*PART NUMBER:TEST_POINT
+*PCB Test Point
+*Version:1
+********************************************
+.SUBCKT TEST_POINT 1
+
+C1 1 0 1E-12
+
+.ENDS TEST_POINT

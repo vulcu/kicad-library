@@ -1,0 +1,12 @@
+* PSpice Model
+*$
+*PART NUMBER:DNI_2PIN
+*Stand-in model for a part with a Do Not Install directive
+*Version:1
+********************************************
+.SUBCKT DNI_2PIN 1 2
+
+R1 1 2 10E09
+C1 1 2 1E-12
+
+.ENDS DNI_2PIN

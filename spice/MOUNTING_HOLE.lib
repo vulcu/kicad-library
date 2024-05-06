@@ -1,0 +1,11 @@
+* PSpice Model
+*$
+*PART NUMBER:MOUNTING_HOLE
+*Chassis Mounting Hole
+*Version:1
+********************************************
+.SUBCKT MOUNTING_HOLE 1
+
+R1 1 0 20.0E-03
+
+.ENDS MOUNTING_HOLE

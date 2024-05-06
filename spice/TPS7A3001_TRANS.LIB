@@ -1,0 +1,193 @@
+*$
+*TPS7A3001
+*****************************************************************************
+* (C) Copyright 2017 Texas Instruments Incorporated. All rights reserved.
+*****************************************************************************
+** This model is designed as an aid for customers of Texas Instruments.
+** TI and its licensors and suppliers make no warranties, either expressed
+** or implied, with respect to this model, including the warranties of
+** merchantability or fitness for a particular purpose. The model is
+** provided solely on an "as is" basis. The entire risk as to its quality
+** and performance is with the customer.
+*****************************************************************************
+*
+** Released by: WEBENCH Design Center, Texas Instruments Inc.
+* Part: TPS7A3001
+* Date: 03MAR2017
+* Model Type: Transient
+* Simulator: PSPICE
+* Simulator Version: 16.2.0.p001
+* EVM Order Number: TPS7A30-49EVM-567
+* EVM Users Guide:  SLVU405–August 2010
+* Datasheet: SBVS125D –AUGUST 2010–REVISED JUNE 2015
+*
+* Model Version: Final 1.10
+*
+*****************************************************************************
+*****************************************************************************
+*
+* Updates:
+* Features modeled -
+* 1. The model has been updated to new template of LDO.
+* 2. Converted model to support floating ground.
+* 3. Startup & Shutdown Response
+* 4. Dropout vs ILOAD
+* 5. Current limit
+* 6. Line & Load Transient Response
+* 7. VOUT vs VIN Plot
+* 8. VOUT vs IOUT Plot
+* 9. Soft start function
+* 10.Supports dual polarity enable pin voltage.
+*
+* Features not modeled -
+* 1. Noise vs Frequency
+* 2. Ground current, Enable current, Feedback current, shutdown current and quiescent current.
+* 3. Temperature Dependent Characteristics
+*
+*****************************************************************************
+* Final 1.00
+* Release to Web
+*
+*****************************************************************************
+.SUBCKT TPS7A3001_TRANS OUT FB NC GND EN NR DNC IN PAD
+
+.PARAM
++   psrr=316u
++   venb=2.1
++   ilim=-330m
++   pole=2k
++   zero=100k
++   rinp=1e7
++   ttrn=1u
++   rout=1m
++   vref=1.176
++   ehys=1.7
+
+R_R13       0 PAD  1e9
+E_ABM1      N799364 0 VALUE { {MAX(V(N798163), (V(Vzz_INT)+(ILIM*ROUT)))} }
+X_U4        OUT GND TPS7A3001_d_d PARAMS:
+V_Vload     VZZ OUT 0Vdc
+X_F1        N506750 VZZ N506376 VYY TPS7A3001_F1
+E_E11       V_FBK 0 VALUE { V(FB, GND) }
+R_R1        VXX N506376  {RINP}
+R_R11       DNC IN  1e6
+R_R2        N506318 VXX  {PSRR*RINP}
+R_R12       GND DNC  1e6
+X_S2        N506546 0 IN N506376 TPS7A3001_S2
+C_C1        VXX N506376  {1/(6.28*RINP*POLE)}
+C_U1_C7     U1_EN_OK 0  1n IC=0
+R_U1_R9     U1_N7715581 NR  1m
+E_U1_ABM12  VIN_EN_OK 0 VALUE { IF(V(U1_EN_OK)>0.5, 1, 0)    }
+
+X_U1_U1     EN_INT U1_N628879 U1_N628829 U1_N15500570 TPS7A3001_COMPHYS_BASIC_GEN
++   PARAMS: VDD=1 VSS=0 VTHRESH=0.5
+
+R_U1_R4     U1_N629335 U1_N628541  10 TC=0,0
+E_U1_GAIN1  U1_N15503575 0 VALUE {1 * V(U1_N15500570)}
+R_U1_R8     U1_N769717 NR  150k TC=0,0
+V_U1_V1     U1_N628829 0 1.6
+C_U1_C2     0 U1_N628541  1n
+R_U1_R11    U1_N15851874 U1_N15848071  {45u/(0.693*1n)} TC=0,0
+X_U1_U5     N506318 U1_N672242 TPS7A3001_d_d PARAMS:
+C_U1_C3     GND N506318  1n IC=0
+
+E_U1_ABM7   U1_N629335 0 VALUE { V(U1_N628493)
++ * (ABS(V(OUT_INT)) + 1e-6)
++ / (ABS(V(V_FBK)) + 1e-6)  }
+
+V_U1_V5     GND U1_N672242 -5.5m
+X_U1_U6     U1_N15848071 U1_N15851874 TPS7A3001_d_d PARAMS:
+C_U1_C6     0 U1_N15848071  1n IC=0
+V_U1_V2     U1_N628879 0 2
+C_U1_C5     GND U1_N7715581  1n IC=0
+E_U1_E5     U1_N769717 GND VALUE { V(U1_N15848071, 0) }
+R_U1_R2     GND U1_N628541  1G
+
+E_U1_ABM5   U1_N629917 0 VALUE { MAX(V(U1_N628541),
++ MIN(V(IN_PRE)+V(U1_DROP), 0)) }
+
+E_U1_E4     U1_N15847322 GND VALUE { V(U1_N629917, 0) }
+E_U1_E6     U1_NR_INT 0 VALUE { V(NR, GND) }
+X_U1_U4     U1_EN_OK U1_N15503575 TPS7A3001_d_d PARAMS:
+R_U1_R3     U1_N629219 U1_N628493  {3.333e5*SQRT(TTRN)} TC=0,0
+R_U1_R1     GND U1_N628493  1G
+R_U1_R10    U1_N15503575 U1_EN_OK  {45u/(0.693*1n)} TC=0,0
+E_U1_ABM11  U1_N629219 0 VALUE { IF(V(VIN_EN_OK)>0.5, -V(U1_NR_INT), 0) }
+X_U1_U8     LOAD 0 U1_DROP 0 TPS7A3001_my_ETABLE
+E_U1_ABM10  U1_N15851874 0 VALUE { IF(V(VIN_EN_OK)>0.5,{VREF},0)    }
+C_U1_C1     0 U1_N628493  {1e-6*SQRT(TTRN)} IC=0
+R_U1_R5     U1_N15847322 N506318  10 TC=0,0
+C_C2        VXX N506318  {1/(6.28*PSRR*RINP*ZERO)}
+R_R9        NC IN  1e6
+R_R6        N506754 VYY  10 TC=0,0
+E_E6        IN_PRE 0 VALUE { V(IN, GND) }
+E_ABM2      LOAD 0 VALUE { I(V_Vload)    }
+E_E15       OUT_INT 0 VALUE { V(OUT, GND) }
+C_C5        N506376 GND  0.5n IC=0
+R_R5        N506750 VYY  {ROUT}
+C_C3        GND VYY  1n
+R_R8        VIN_EN_OK N506546  10 TC=0,0
+E_ABS1      EN_INT 0 VALUE {ABS(V(N15530251))}
+R_R10       GND NC  1e6
+E_E12       N798163 0 VALUE { V(VXX, GND) }
+E_E14       VZZ_INT 0 VALUE { V(VZZ, GND) }
+E_E5        N15530251 0 VALUE { V(EN, GND) }
+C_C4        0 N506546  1u
+E_E13       N506754 GND VALUE { V(N799364, 0) }
+
+.ENDS TPS7A3001_TRANS
+
+**$
+.subckt TPS7A3001_F1 1 2 3 4
+
+F_F1        3 4 VF_F1 1
+VF_F1       1 2 0V
+
+.ends TPS7A3001_F1
+
+**$
+.subckt TPS7A3001_S2 1 2 3 4
+
+S_S2        3 4 1 2 _S2
+RS_S2       1 2 1G
+
+.MODEL _S2 VSWITCH
++   Roff=100
++   Ron=10
++   Voff=0.1V
++   Von=0.9V
+
+.ends TPS7A3001_S2
+
+**$
+.SUBCKT TPS7A3001_COMPHYS_BASIC_GEN INP INM HYS OUT PARAMS: VDD=1 VSS=0 VTHRESH=0.5
+
+EIN         INP1 INM1 INP INM 1
+EHYS        INP1 INP2 VALUE { IF( V(1) > {VTHRESH},-V(HYS),0) }
+EOUT        OUT 0 VALUE { IF( V(INP2)>V(INM1), {VDD} ,{VSS}) }
+R1          OUT 1 1
+C1          1 0 5n
+RINP1       INP1 0 1K
+
+.ENDS TPS7A3001_COMPHYS_BASIC_GEN
+
+**$
+.subckt TPS7A3001_d_d 1 2
+
+d1 1 2 dd
+
+.model dd d
++   is=1e-015
++   n=0.01
++   tt=1e-011
+
+.ends TPS7A3001_d_d
+
+**$
+.SUBCKT TPS7A3001_my_ETABLE IN+ IN- OUT+ OUT-
+
+E_E1 OUT+ OUT- TABLE { V(IN+, IN-) } = (-199.72m,350.67m)(-179.99m,324.34m)(-159.55m,296.81m)
++   (-140.18m,270.48m)(-120.09m,246.54m)(-100.00m,221.41m)(-79.92m,193.88m)(-60.19m,165.16m)
++   (-40.11m,135.24m)(-23.61m,106.52m)(-8.92m,70.61m)(-0.36m,2.39m)(0,1m)
+
+.ENDS TPS7A3001_my_ETABLE
