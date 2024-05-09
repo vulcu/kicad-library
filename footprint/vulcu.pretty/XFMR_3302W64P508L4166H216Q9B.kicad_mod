@@ -29,8 +29,8 @@
 			)
 		)
 	)
-	(property "Footprint" ""
-		(at -15 -7.62 -90)
+	(property "Footprint" "XFMR_3302W64P508L4166H216Q9B"
+		(at 0 2.5 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
@@ -194,7 +194,7 @@
 		(thermal_gap 0.254)
 		(uuid "b8a22d0b-2718-4ea3-a5c6-a6aca6a9da41")
 	)
-	(model "C:/src/kicad-library/mcad/hammond_560G.STEP"
+	(model "../../mcad/hammond_560G.STEP"
 		(offset
 			(xyz -21.195 -16.3 0)
 		)
