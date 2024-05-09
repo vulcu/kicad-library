@@ -29,8 +29,8 @@
 			)
 		)
 	)
-	(property "Footprint" ""
-		(at 0 0 0)
+	(property "Footprint" "AMPHENOL_112405-12"
+		(at 0 8 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
@@ -122,6 +122,17 @@
 		(remove_unused_layers no)
 		(thermal_bridge_width 0.254)
 		(thermal_gap 0.254)
+		(teardrops
+			(best_length_ratio 0.5)
+			(max_length 1)
+			(best_width_ratio 1)
+			(max_width 2)
+			(curve_points 0)
+			(filter_ratio 0.9)
+			(enabled yes)
+			(allow_two_segments yes)
+			(prefer_zone_connections yes)
+		)
 		(uuid "d5e82364-7cf5-478a-a711-2d78b1982c0a")
 	)
 	(pad "2" thru_hole circle
@@ -132,6 +143,17 @@
 		(remove_unused_layers no)
 		(thermal_bridge_width 0.254)
 		(thermal_gap 0.254)
+		(teardrops
+			(best_length_ratio 0.5)
+			(max_length 1)
+			(best_width_ratio 1)
+			(max_width 2)
+			(curve_points 0)
+			(filter_ratio 0.9)
+			(enabled yes)
+			(allow_two_segments yes)
+			(prefer_zone_connections yes)
+		)
 		(uuid "d891639d-f10f-4e1b-ae57-445c30402ea2")
 	)
 	(pad "2" thru_hole circle
@@ -142,6 +164,17 @@
 		(remove_unused_layers no)
 		(thermal_bridge_width 0.254)
 		(thermal_gap 0.254)
+		(teardrops
+			(best_length_ratio 0.5)
+			(max_length 1)
+			(best_width_ratio 1)
+			(max_width 2)
+			(curve_points 0)
+			(filter_ratio 0.9)
+			(enabled yes)
+			(allow_two_segments yes)
+			(prefer_zone_connections yes)
+		)
 		(uuid "ac8953b2-5cac-465e-a2bb-b7b033054f5e")
 	)
 	(pad "2" thru_hole circle
@@ -152,9 +185,20 @@
 		(remove_unused_layers no)
 		(thermal_bridge_width 0.254)
 		(thermal_gap 0.254)
+		(teardrops
+			(best_length_ratio 0.5)
+			(max_length 1)
+			(best_width_ratio 1)
+			(max_width 2)
+			(curve_points 0)
+			(filter_ratio 0.9)
+			(enabled yes)
+			(allow_two_segments yes)
+			(prefer_zone_connections yes)
+		)
 		(uuid "50f38088-9813-45cd-a1c1-963d3a47431d")
 	)
-	(model "C:/src/kicad-library/mcad/amphenol_112405-12.stp"
+	(model "../../mcad/amphenol_112405-12.stp"
 		(offset
 			(xyz 0 0 13.7)
 		)
