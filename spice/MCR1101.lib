@@ -1,0 +1,72 @@
+* ADG5558 SPICE Macro-model
+* Generic Desc: Ratiometric Isolated Current-Sensor
+* Revision History: 1.2 (12/2023)
+*
+* Begin Notes:
+* The model provides an approximate current-to-voltage emulation
+*
+* Not Modeled:
+* Transient characteristics or digital/clocking characteristics
+*
+* Parameters modeled include:
+*	Analog Input Impedance
+*	AVDD, TVDD, and VREF Current
+*   VDD18 LDO Output and Pulldown
+*   Digital IO Leakage Current
+*
+* Connections
+*	1  = IP+		5  = IP-		 9  = FAULT_L       13  = VCAP
+*	2  = IP+		6  = IP-		10  = VCC		    14  = GND
+*	3  = IP+		7  = IP-	    11  = GND		    15  = GND
+*	4  = IP+		8  = IP-	    12  = Vout		    16  = VOC
+
+.SUBCKT MCR1101 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+
+* POWER PIN APPROXIMATION
+IVCC  10 0 DC 8E-03
+RGND1 11 0 100E-06
+RGND2 14 0 100E-06
+RGND3 15 0 100E-06
+
+RVCAP 13 0 10E03
+RVOC  16 0 10E03
+
+* IP+/- Resistance
+RIP1P 1 17 10E-03
+RIP2P 2 17 10E-03
+RIP3P 3 17 10E-03
+RIP4P 4 17 10E-03
+
+* Overcurrent Fault Output
+EFAULTB  9 0 VALUE = { IF(V(12)>=(V(16)) , 0 , V(10) ) }
+
+* Current-Sense Output
+XVOUT 12 17 18 10 ISENSE
+
+RIP1N 18 5 10E-03
+RIP2N 18 6 10E-03
+RIP3N 18 7 10E-03
+RIP4N 18 8 10E-03
+
+.ENDS MCR1101
+
+* Current Sense Path
+* Connections
+*	1 = VOUT        2 = CURRENT_IN      3 = CURRENT_OUT     4 = VCC
+.SUBCKT ISENSE 1 2 3 4
+
+.PARAM
++ R_CONDUCTOR = { 1.3E-03 }
++ V_REF       = { 5 }
++ V_PER_AMP   = { 40E-03 }
++ V_OFFSET    = { V_REF / 2 }
++ V_SCALE     = { V_REF / 5 }
++ P0          = { V_OFFSET }
++ P1          = { V_PER_AMP * V_SCALE }
+
+RSENSE 2 3 { R_CONDUCTOR }
+VMEAS  2 3 DC 0
+
+HVOUT 1 0 VMEAS P0 P1
+
+.ENDS ISENSE
