@@ -1,6 +1,6 @@
 * ADG5558 SPICE Macro-model
 * Generic Desc: 8-Channel Differential 32-bit ADC
-* Revision History: 1.2 (12/2023)
+* Revision History: 1.0 (05/2024)
 *
 * Begin Notes:
 * The model provides an static approximation of analog input impedances and power  
@@ -39,17 +39,19 @@
 
 .PARAM 
 +   R_PULLDOWN_500 = IF( V(28)<=(V(25)*0.5) & ((V(57)>=(V(25)*0.5) & V(57)<=3.4)) , 500 , 100E06 )
++   R_VDD18_OUT    = 0.5
 
 * VDD18 LDO
-EVDD18 27 26 VALUE = { IF(V(28)>=(V(25)*0.5) , 1.8 , 0 ) }
-RVDD18 27 26 { R_PULLDOWN_500 }
+EVDD18  66 26 VALUE = { IF(V(28)>=(V(25)*0.5) , 1.8 , 0 ) }
+RVDD18  66 26 { R_PULLDOWN_500 }
+RVDDOUT 66 27 { R_VDD18_OUT }
 
 * POWER PIN APPROXIMATION
 RAVDD1 2 1 { IF(V(28)>=(V(25)*0.5) , 185 , 150000 ) }
 RAVDD2 15 16 { IF(V(28)>=(V(25)*0.5) , 185 , 150000 ) }
 RTVDD 25 26 { IF(V(28)>=(V(25)*0.5) , 118 , 100000 ) }
 
-* ADC REFERENCE PINS
+* ADC REFERENCE
 RVREF1 62 61 50E03
 RVREF2 6 5 50E03
 RVREF3 11 12 50E03
@@ -118,15 +120,15 @@ RDIO57 57 26 1E06
 ECLAMPL 7 3 VALUE={ (V(5) - V(4)) * ADC_MIN_SCALE + DCLIP_EG }
 ECLAMPH 8 3 VALUE={ (V(5) - V(4)) * ADC_MAX_SCALE - DCLIP_EG }
 
-* Uncomment next two lines to simulate input clip @ +/- 2.8 Vpp
+* Uncomment next two lines to simulate input clip @ +/- 1.85 Vpp
 XD1 7 8 1 AK5558_DCLIP
 XD2 7 8 2 AK5558_DCLIP
 
-EAINVLIML 9 3  VALUE={ V(5) + DCLIP_EG }
-EAINVLIMH 10 3 VALUE={ V(4) - DCLIP_EG }
+* EAINVLIML 9 3  VALUE={ V(5) + DCLIP_EG }
+* EAINVLIMH 10 3 VALUE={ V(4) - DCLIP_EG }
 
-XD3 9 10 1 AK5558_DCLIP
-XD4 9 10 2 AK5558_DCLIP
+* XD3 9 10 1 AK5558_DCLIP
+* XD4 9 10 2 AK5558_DCLIP
 
 R1 1 6 10.4E03
 R2 2 6 10.4E03

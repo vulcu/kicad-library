@@ -41,8 +41,9 @@
 +   R_PULLDOWN_500 = IF( V(28)<=(V(25)*0.5) & ((V(57)>=(V(25)*0.5) & V(57)<=3.4)) , 500 , 100E06 )
 
 * VDD18 LDO
-EVDD18 27 26 VALUE = { IF(V(28)>=(V(25)*0.5) , 1.8 , 0 ) }
-RVDD18 27 26 { R_PULLDOWN_500 }
+EVDD18  66 26 VALUE = { IF(V(28)>=(V(25)*0.5) , 1.8 , 0 ) }
+RVDD18  66 26 { R_PULLDOWN_500 }
+RVDDOUT 66 27 { R_VDD18_OUT }
 
 * POWER PIN APPROXIMATION
 RAVDD1 2 1 { IF(V(28)>=(V(25)*0.5) , 185 , 150000 ) }
@@ -118,7 +119,7 @@ RDIO57 57 26 1E06
 ECLAMPL 7 3 VALUE={ (V(5) - V(4)) * ADC_MIN_SCALE + DCLIP_EG }
 ECLAMPH 8 3 VALUE={ (V(5) - V(4)) * ADC_MAX_SCALE - DCLIP_EG }
 
-* Uncomment next two lines to simulate input clip @ +/- 2.8 Vpp
+* Uncomment next two lines to simulate input clip @ +/- 2.82 Vpp
 *XD1 7 8 1 AK5558_DCLIP
 *XD2 7 8 2 AK5558_DCLIP
 
