@@ -113,23 +113,23 @@ RDIO57 57 26 1E06
 .SUBCKT AK5558_AIN_PIN 1 2 3 4 5
 
 .PARAM 
-+   ADC_MIN_SCALE = { (-0.516 * (0.56 - 1)) }
-+   ADC_MAX_SCALE = { (0.492 * (0.56 + 1)) }
++   ADC_MIN_SCALE = { (-0.526 * (0.56 - 1)) }
++   ADC_MAX_SCALE = { (0.482 * (0.56 + 1)) }
 +   DCLIP_EG = { 0.69 }
 
 ECLAMPL 7 3 VALUE={ (V(5) - V(4)) * ADC_MIN_SCALE + DCLIP_EG }
 ECLAMPH 8 3 VALUE={ (V(5) - V(4)) * ADC_MAX_SCALE - DCLIP_EG }
 
 * Uncomment next two lines to simulate input clip @ +/- 1.85 Vpp
-XD1 7 8 1 AK5558_DCLIP
-XD2 7 8 2 AK5558_DCLIP
+XFS1 7 8 1 AK5558_DCLIP
+XFS2 7 8 2 AK5558_DCLIP
 
 * Uncomment next two lines to simulate input clip @ +3.3V/GND
 * EAINVLIML 9 3  VALUE={ V(5) + DCLIP_EG }
 * EAINVLIMH 10 3 VALUE={ V(4) - DCLIP_EG }
 
-* XD3 9 10 1 AK5558_DCLIP
-* XD4 9 10 2 AK5558_DCLIP
+* XAINVLIM1 9 10 1 AK5558_DCLIP
+* XAINVLIM2 9 10 2 AK5558_DCLIP
 
 R1 1 6 10.4E03
 R2 2 6 10.4E03
