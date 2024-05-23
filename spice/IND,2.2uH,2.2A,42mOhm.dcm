@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0
-#
-$CMP 2.2uH,2.2A,42mΩ
-D Inductor
-K power inductor choke coil reactor magnetic
-F ~
-$ENDCMP
-#
-#End Doc Library

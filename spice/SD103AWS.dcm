@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0
-#
-$CMP SD103AWS
-D Schottky Barrier Diode, SOD-323
-K schottky barrier diode
-F https://www.vishay.com/docs/85682/sd103aws.pdf
-$ENDCMP
-#
-#End Doc Library
