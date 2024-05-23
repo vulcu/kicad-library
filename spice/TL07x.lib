@@ -1,0 +1,97 @@
+********************************************************
+* TL071 SPICE Macro-model
+* Generic Desc: Dual Operational Amplifier
+* Revision History: 1.0 (05/2024)
+*
+* Connections
+*	1  = Offset Trim    5  = NC
+*	2  = IN1_N		    6  = OUT1
+*	3  = IN1_P		    7  = VCC
+*	4  = VEE		    8  = Offset Trim
+********************************************************
+.SUBCKT TL071 1 2 3 4 5 6 7 8
+
+X1 3 2 7 4 6 TL07x
+.ENDS TL071
+
+********************************************************
+* TL072 SPICE Macro-model
+* Generic Desc: Dual Operational Amplifier
+* Revision History: 1.0 (05/2024)
+*
+* Connections
+*	1  = OUT1		5  = IN2_P
+*	2  = IN1_N		6  = IN2_N
+*	3  = IN1_P		7  = OUT2
+*	4  = VEE		8  = VCC
+********************************************************
+.SUBCKT TL072 1 2 3 4 5 6 7 8
+
+X1 3 2 8 4 1 TL07x
+X2 5 6 8 4 7 TL07x
+.ENDS TL072
+
+********************************************************
+* TL074 SPICE Macro-model
+* Generic Desc: Dual Operational Amplifier
+* Revision History: 1.0 (05/2024)
+*
+* Connections
+*	1  = OUT1		 8  = OUT3
+*	2  = IN1_N       9  = IN3_N
+*	3  = IN1_P		10  = IN3_P
+*	4  = VCC		11  = VEE
+*	5  = IN2_P		12  = IN4_P
+*	6  = IN2_N		13  = IN4_N
+*	7  = OUT2		14  = OUT4
+********************************************************
+.SUBCKT TL074 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+
+X1  3  2 4 11  1 TL07x
+X2  5  6 4 11  7 TL07x
+X3 10  9 4 11  8 TL07x
+X4 12 13 4 11 14 TL07x
+.ENDS TL074
+
+* TL07x OPERATIONAL AMPLIFIER "MACROMODEL" SUBCIRCUIT
+* CREATED USING PARTS RELEASE 4.01 ON 06/16/89 AT 13:08
+* (REV N/A)      SUPPLY VOLTAGE: +/-15V
+* CONNECTIONS:   NON-INVERTING INPUT
+*                | INVERTING INPUT
+*                | | POSITIVE POWER SUPPLY
+*                | | | NEGATIVE POWER SUPPLY
+*                | | | | OUTPUT
+*                | | | | |
+.SUBCKT TL07x    1 2 3 4 5
+*
+  C1   11 12 3.498E-12
+  C2    6  7 15.00E-12
+  DC    5 53 DX
+  DE   54  5 DX
+  DLP  90 91 DX
+  DLN  92 90 DX
+  DP    4  3 DX
+  EGND 99  0 POLY(2) (3,0) (4,0) 0 .5 .5
+  FB    7 99 POLY(5) VB VC VE VLP VLN 0 4.715E6 -5E6 5E6 5E6 -5E6
+  GA    6  0 11 12 282.8E-6
+  GCM   0  6 10 99 8.942E-9
+  ISS   3 10 DC 195.0E-6
+  HLIM 90  0 VLIM 1K
+  J1   11  2 10 JX
+  J2   12  1 10 JX
+  R2    6  9 100.0E3
+  RD1   4 11 3.536E3
+  RD2   4 12 3.536E3
+  RO1   8  5 150
+  RO2   7 99 150
+  RP    3  4 2.143E3
+  RSS  10 99 1.026E6
+  VB    9  0 DC 0
+  VC    3 53 DC 2.200
+  VE   54  4 DC 2.200
+  VLIM  7  8 DC 0
+  VLP  91  0 DC 25
+  VLN   0 92 DC 25
+.MODEL DX D(IS=800.0E-18)
+.MODEL JX PJF(IS=15.00E-12 BETA=270.1E-6 VTO=-1)
+.ENDS
