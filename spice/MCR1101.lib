@@ -1,6 +1,6 @@
-* ADG5558 SPICE Macro-model
+* MCR1101 SPICE Macro-model
 * Generic Desc: Ratiometric Isolated Current-Sensor
-* Revision History: 1.2 (12/2023)
+* Revision History: 1.0 (05/2024)
 *
 * Begin Notes:
 * The model provides an approximate current-to-voltage emulation
