@@ -112,43 +112,49 @@ RDIO57 57 26 1E06
 .SUBCKT AK5558_AIN_PIN 1 2 3 4 5
 
 .PARAM 
-+   ADC_MIN_SCALE = { (-0.516 * (0.56 - 1)) }
-+   ADC_MAX_SCALE = { (0.492 * (0.56 + 1)) }
-+   DCLIP_EG = { 0.69 }
++   DCLAMP_VJ     = {  0.2013 }
++   ADC_MIN_SCALE = { -0.526 * (0.56 - 1) }
++   ADC_MAX_SCALE = {  0.474 * (0.56 + 1) }
++   ADC_MIN_VREFL = { -0.3 }
++   ADC_MAX_VREFH = {  3.6 }
++   ADC_REF_MIN   = { IF((V(4) <= ADC_MIN_VREFL), ADC_MIN_VREFL, V(4)) }
++   ADC_REF_MAX   = { IF((V(5) >= ADC_MAX_VREFH), ADC_MAX_VREFH, V(5)) }
++   ADC_REF_RANGE = { IF((V(5) <= V(4)), 0, (ADC_REF_MAX - ADC_REF_MIN)) }
 
-ECLAMPL 7 3 VALUE={ (V(5) - V(4)) * ADC_MIN_SCALE + DCLIP_EG }
-ECLAMPH 8 3 VALUE={ (V(5) - V(4)) * ADC_MAX_SCALE - DCLIP_EG }
+* Uncomment these lines to simulate input clip @ +/- 1.85 Vpp
+* ECLAMPL 7 3 VALUE={ (ADC_REF_RANGE * ADC_MIN_SCALE) + DCLAMP_VJ }
+* ECLAMPH 8 3 VALUE={ (ADC_REF_RANGE * ADC_MAX_SCALE) - DCLAMP_VJ }
+* XFS1 7 8 1 AK5558_DCLAMP
+* XFS2 7 8 2 AK5558_DCLAMP
 
-* Uncomment next two lines to simulate input clip @ +/- 2.82 Vpp
-*XD1 7 8 1 AK5558_DCLIP
-*XD2 7 8 2 AK5558_DCLIP
+* Uncomment these lines to simulate input clip @ VREFL/VREFH
+EAINVLIML 11 3 VALUE={ ADC_REF_MIN }
+EAINVLIMH 12 3 VALUE={ ADC_REF_MAX }
+XAINVLIM1 11 12 13 AK5558_DCLAMP
+XAINVLIM2 11 12 14 AK5558_DCLAMP
 
-* Uncomment next two lines to simulate input clip @ +5V/GND
-EAINVLIML 9 3  VALUE={ V(5) + DCLIP_EG }
-EAINVLIMH 10 3 VALUE={ V(4) - DCLIP_EG }
-
-XD3 9 10 1 AK5558_DCLIP
-XD4 9 10 2 AK5558_DCLIP
-
+EBIAS NBIAS 0 VALUE={ ADC_REF_MIN + (ADC_REF_RANGE / 2) }
 R1 1 6 10.4E03
 R2 2 6 10.4E03
-RX1 6 3 10.4E-03
+RX1 6 NBIAS 10.4E-03
 RX2 1 2 104E06
-C1 1 3 100E-12
-C2 2 3 100E-12
+C1 1 0 100E-12
+C2 2 0 100E-12
 
 .ENDS AK5558_AIN_PIN
 
-* Analog Input Clip
+* Analog Signal Clamp
 * Uses a BAT54 Schottky diode model; the resistors do not reflect devices.
 * Instead they improve modeling in the reverse mode of operation.
 * Connections
 *	1 = VLOW    2 = VHIGH    3 = SIG
-.SUBCKT AK5558_DCLIP 1 2 3
+.SUBCKT AK5558_DCLAMP 1 2 3
 
 .PARAM
-+   R1 = 3.6E+07
-+   R2 = 3.6E+07
++   C1 = { 10E-12 }
++   C2 = { 10E-12 }
++   R1 = { 3.6E+07 }
++   R2 = { 3.6E+07 }
 
 .MODEL BAT54 D( 
 +    IS = 2.117E-07 
@@ -159,14 +165,16 @@ C2 2 3 100E-12
 +    CJO = 1.114E-11 
 +    VJ = 0.2013 
 +    M = 0.3868 
-+    FC = 0 
-+    TT = 0 
++    FC = 0.1 
++    TT = 5E-09 
 +    EG = 0.69 
 +    XTI = 2) 
 
+C1 1 3 {C1}
 R1 1 3 {R1}
 D1 1 3 BAT54
+C2 3 2 {C2}
 R2 3 2 {R2}
 D2 3 2 BAT54
 
-.ends AK5558_DCLIP
+.ENDS AK5558_DCLAMP
