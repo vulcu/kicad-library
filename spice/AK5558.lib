@@ -113,17 +113,18 @@ RDIO57 57 26 1E06
 
 .PARAM 
 +   DCLAMP_VJ     = {  0.2013 }
++   DCLIP_EG      = {  0.69 }
 +   ADC_MIN_SCALE = { -0.526 * (0.56 - 1) }
-+   ADC_MAX_SCALE = {  0.474 * (0.56 + 1) }
++   ADC_MAX_SCALE = {  0.482 * (0.56 + 1) }
 +   ADC_MIN_VREFL = { -0.3 }
 +   ADC_MAX_VREFH = {  3.6 }
 +   ADC_REF_MIN   = { IF((V(4) <= ADC_MIN_VREFL), ADC_MIN_VREFL, V(4)) }
 +   ADC_REF_MAX   = { IF((V(5) >= ADC_MAX_VREFH), ADC_MAX_VREFH, V(5)) }
 +   ADC_REF_RANGE = { IF((V(5) <= V(4)), 0, (ADC_REF_MAX - ADC_REF_MIN)) }
 
-* Uncomment these lines to simulate input clip @ +/- 1.85 Vpp
-* ECLAMPL 7 3 VALUE={ (ADC_REF_RANGE * ADC_MIN_SCALE) + DCLAMP_VJ }
-* ECLAMPH 8 3 VALUE={ (ADC_REF_RANGE * ADC_MAX_SCALE) - DCLAMP_VJ }
+* Uncomment these lines to simulate input clip @ +/- 2.82 Vpp
+* ECLAMPL 7 3 VALUE={ (ADC_REF_RANGE * ADC_MIN_SCALE) + DCLIP_EG }
+* ECLAMPH 8 3 VALUE={ (ADC_REF_RANGE * ADC_MAX_SCALE) - DCLIP_EG }
 * XFS1 7 8 1 AK5558_DCLAMP
 * XFS2 7 8 2 AK5558_DCLAMP
 
