@@ -1,0 +1,11 @@
+* PSpice Model
+*$
+*PART NUMBER:DNI_2PIN
+*Stand-in model for a part with a Do Not Install directive
+*Version:1
+********************************************
+.SUBCKT JUMPER_2PIN 1 2
+
+R1 1 2 1E-09
+
+.ENDS JUMPER_2PIN
