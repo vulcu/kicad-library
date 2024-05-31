@@ -1,7 +1,6 @@
 * TCA6408A SPICE Macro-model
 * Generic Desc: 8-Bit Translating 1.65- to 5.5-V I2C/SMBus I/O Expander with Interrupt, Reset & Config Registers
 * Revision History: 1.0 (10/2023)
-* Copyright 2023 by QSC
 *
 * Begin Notes:
 * The model provides an static approximation of input impedances and power  
