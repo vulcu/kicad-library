@@ -31,7 +31,7 @@
 * Release to Web
 *
 *****************************************************************************
-.SUBCKT LM2940_N_15P0_TRANS IN OUT GND_0 GND_1
+.SUBCKT LM2940_N_15P0 IN OUT GND_0 GND_1
 
 .PARAM  
 +   PSRR=6.31e-4 
@@ -80,7 +80,7 @@ R_U1_R4     U1_N32045 U1_N31769  10 TC=0,0
 V_U1_V6     U1_N32233 0 30.25
 C_U1_C2     0 U1_N31769  1n 
 
-.ENDS LM2940_N_15P0_TRANS
+.ENDS LM2940_N_15P0
 
 **$
 .SUBCKT LM2940_N_15P0_F1 1 2 3 4  

@@ -20,7 +20,7 @@
 * Simulator Version: 16.2.0.p001
 * EVM Order Number: 
 * EVM User's Guide: 
-* Data sheet: SNOS412M –FEBRUARY 2000–REVISED MARCH 2013
+* Data sheet: SNOS412M ï¿½FEBRUARY 2000ï¿½REVISED MARCH 2013
 *
 * Model Version: Final 1.1
 *
@@ -32,7 +32,7 @@
 * Release to Web
 *
 *****************************************************************************
-.SUBCKT LM1117_N_5P0_TRANS IN OUT GND_0 GND_1
+.SUBCKT LM1117_N_5P0 IN OUT GND_0 GND_1
 
 .PARAM  psrr=177.83u uvlo=0 ilim=1.2 pole=2k rinp=1e7 zero=300k rout=1m
 +  ttrn=180u ehys=0.11 vref=1.25 uhys=0.1 drop=350m
@@ -79,7 +79,7 @@ X_U2         0 OUT D_D
 
 
 
-.ENDS LM1117_N_5P0_TRANS
+.ENDS LM1117_N_5P0
 *$
 ****************************
 .subckt LM1117_N_5P0_F1 1 2 3 4  

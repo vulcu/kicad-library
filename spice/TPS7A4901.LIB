@@ -40,7 +40,7 @@
 * Released to Web
 *
 *****************************************************************************
-.SUBCKT TPS7A4901_TRANS OUT FB NC GND EN NR DNC IN PAD
+.SUBCKT TPS7A4901 OUT FB NC GND EN NR DNC IN PAD
 
 .PARAM
 +   psrr=224u
@@ -129,7 +129,7 @@ E_E5        EN_INT 0 VALUE { V(EN, GND) }
 C_C4        0 N506546  1u
 E_E13       N506754 GND VALUE { V(N799364, 0) }
 
-.ENDS TPS7A4901_TRANS
+.ENDS TPS7A4901
 
 **$
 .subckt TPS7A4901_F1 1 2 3 4
