@@ -1,0 +1,108 @@
+* 1 = V+	3 = IN-		5 = Latch	7 = Q
+* 2 = IN+	4 = V-		6 = GND		8 = Q_Inv
+.subckt LT1016 1 2 3 4 5 6 7 8
+XOP 2 3 7 1 4
+
+R1 6 0 1E-06
+R2 5 0 1E06
+R3 8 0 1E06
+*A3 5 6 0 0 0 0 N016 0 SCHMITT Vt=1.5 Vh=0 tau=3n
+* X3 5 6 N016 0 SCHMITT
+* B1 0 VD0 I=10u*dnlim(uplim(V(2),V(1)-1.4,.1), V(4)+1.15,.1)+1n*V(2)
+* B2 VD0 0 I=10u*dnlim(uplim(V(3),V(1)-1.39,.1), V(4)+1.14, .1)+1n*V(3)
+* C1 VD0 0 .01f Rpar=100K noiseless
+* A1 0 VD0 0 0 0 0 N006 0 OTA g=11m iout=75u Vlow=-1e308 Vhigh=1e308 Cout=1f
+* C5 1 7 .1p
+* C6 7 6 .1p
+* G5 0 N002 N006 0 68n
+* D5 0 N006 DLAT
+* G2 0 N011 0 N006 68n
+* A2 N009 0 N016 0 0 0 N006 0 OTA g=500u linear Vlow=-1e308 Vhigh=1e308
+* D1 0 N009 DLAT
+* C3 N009 0 1f
+* G3 0 N009 0 N006 500µ
+* C4 3 4 1.75p
+* C10 2 4 1.75p
+* D13 1 4 DP1
+* D14 1 6 DP2
+* D3 N002 1 XU
+* D4 6 N002 XD
+* M1 1 N003 7 7 N temp=27
+* M2 6 N007 7 7 P temp=27
+* D15 N003 6 DVLU1
+* R6 N003 N002 4G
+* D16 N003 6 DVLU2
+* R7 N007 N002 4G
+* D17 6 N007 DVLD
+* C2 N002 0 .04f
+* C7 1 8 .1p
+* C8 8 6 .1p
+* D7 N011 1 XU
+* D8 6 N011 XD
+* M3 1 N012 8 8 N temp=27
+* M4 6 N014 8 8 P temp=27
+* D18 N012 6 DVLU1
+* R8 N012 N011 4G
+* D19 N012 6 DVLU2
+* R9 N014 N011 4G
+* D20 6 N014 DVLD
+* C9 N011 0 .04f
+* C11 1 3 1.75p
+* C12 1 2 1.75p
+* D2 3 2 DBIASC
+* D6 2 4 DBIAS
+* D9 3 4 DBIAS
+* D10 1 5 DLATCH
+* .model DBIAS D(Ron=1k Roff=10G Vfwd=1 epsilon=.1 ilimit=2.5u)
+* .model DBIASC D(Ron=1 Roff=10G Vfwd= 1u Vrev=1u
+* + epsilon=200u revepsilon=200u ilimit=2.5u revilimit=2.5u)
+* .model DLATCH  D(Ron=1k Roff=10Meg Vfwd=1 epsilon=.1 ilimit=500u)
+* .model DP1  D(Ron=100 Roff=1Meg Vfwd=1 ilimit=3m)
+* .model DP2  D(Ron=100 Roff=1Meg Vfwd=1 ilimit=17.7m)
+* .model XU D(Ron=1k Roff=1.7G Vfwd=6.8 epsilon=.1)
+* .model XD D(Ron=1k Roff=637Meg Vfwd=9 epsilon=.1)
+* .model DVLU1 D(Ron=1.5G Roff=100G Vfwd=1.1 epsilon=2.5)
+* .model DVLU2 D(Ron= 5Meg Roff=100G Vfwd=3.5 epsilon=.1)
+* .model DVLD D(Ron= 5Meg Roff=100G Vfwd=-150m epsilon=.1)
+* .model DLAT D(Ron=1 Roff=10k Vfwd=500m Vrev=500m epsilon=5m revepsilon=5m)
+* .model N VDMOS(Vto= -300m kp=230m rds=2k)
+* .model P VDMOS(Vto= 400m Kp=25m rds=2k pchan )
+.ends LT1016
+
+*	1 = IN+   2 = IN-   3 = OUTPUT   4 = GND
+.subckt LT1016_SCHMITT 1 2 3 4
+
+.ends LT1016_SCHMITT
+
+*	1 = IN+   2 = IN-   3 = OUTPUT	4 = V+	5 = V-
+.subckt LT1016_OPAMP 1 2 3 4 5
+
+.param
++   Vmax  = { V(4) - 1.50 }
++   Vmin  = { V(5) + 1.25 }
+
+* input DC offset, IOS is IOS/2
+Ibp  2  5 DC 5E-06
+Ibn 10  5 DC 5E-06
+Ios  2 10 DC 300E-09
+Vos 10  1 DC 1E-03
+
+* finite CMRR limitation
+Eerror 1 9 1 5 15.8489E-06
+
+* 1st stage amp
+Ginput 7 N1 TABLE{ V(9, 2) } = (-0.1, -22E-06) (0.1, 22E-06)
+R1 7 N1 { 1.51E06 }
+
+* 2nd stage amp and compensation network
+Emid 8 N1 VALUE = { 
++	IF((V(7) * -3000) <= Vmin, Vmin, 
++	IF((V(7) * -3000) >= Vmax, Vmax,
++	(V(7) * -3000))) }
+C1 7 8 { 3E-12 }
+
+* output stage
+Evg N1 5 VALUE = { ((V(4) - V(5)) / 2) }
+Eout 3 N1 8 N1 1
+
+.ends LT1016_OPAMP
