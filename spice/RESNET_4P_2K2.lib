@@ -1,0 +1,17 @@
+* PSpice Model
+*$
+*PART NUMBER:DNI_2PIN
+*Stand-in model for a part with a Do Not Install directive
+*Version:1
+********************************************
+.SUBCKT RESNET_4P_2K2 1 2 3 4 5 6 7 8
+
+.PARAM
++ RN = { 2.2E03 }
+
+R1 1 8 { RN }
+R2 2 7 { RN }
+R3 3 6 { RN }
+R4 4 5 { RN }
+
+.ENDS RESNET_4P_2K2
