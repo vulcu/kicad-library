@@ -1,6 +1,6 @@
 * ADG4458 SPICE Macro-model
 * Generic Desc: 8-Channel Differential 32-bit ADC
-* Revision History: 1.2 (12/2023)
+* Revision History: 1.1 (05/2024)
 *
 * Begin Notes:
 * The model provides an static approximation of analog input impedances and power  
