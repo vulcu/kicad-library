@@ -1,0 +1,86 @@
+* DS1882 SPICE Macro-model
+* Generic Desc: Dual Log Audio Digital Potentiometer
+* Revision History: 1.0 (10/2024)
+*
+* Begin Notes:
+* The model provides an static approximation of analog input impedances and power  
+* consumption for nominal applications, along with digital potentiometer behavior.
+*
+* Not Modeled:
+* Transient characteristics or digital/clocking characteristics
+*
+* Parameters modeled include:
+*	Analog Input Impedance
+*	VCC, VDD, and VEE Current
+*   Digital IO Leakage Current
+*
+* Connections
+*	1  = GND	9   = L1
+*	2  = A2     10  = H1
+*	3  = A1		11  = W1
+*	4  = VEE    12  = ENABLE_L
+*	5  = A0     13  = SDA
+*	6  = W0     14  = SCL
+*	7  = L0     15  = VCC
+*	8  = H0     16  = VDD
+
+.SUBCKT DS1882 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+
+.PARAM
++   VDD_GAIN        = { 0.000001 }
++   VCC_GAIN        = { 0.0000014285714285714 }
++   VEE_GAIN        = { -VCC_GAIN }
++   V_LOGIC_L       = { 0.15 * V(16) }
++   V_LOGIC_H       = { 0.80 * V(16) }
++   V_LOGIC_MID     = { V(16) - (V(16) / 2) }
++   IO_PIN_LEAKAGE  = { 1E-06 }
++   IO_LEAKAGE_R    = { V(16) / IO_PIN_LEAKAGE }
++   IO_PIN_GAIN     = { 4E-06 }
++   IO_PIN_CAP      = { 10E-12 }
++   R_WIPER         = { 220 }
++   R_END_TO_END    = { 45E03 }
++   W0_POSITION     = { 0.5 }
++   W1_POSITION     = { 0.5 }
+
+GVDD 16 1 VALUE = { IF((V(12)>=(V(16)*0.8)), (V(16) * VDD_GAIN) , IO_PIN_LEAKAGE) }
+GVCC 15 1 VALUE = { IF((V(12)>=(V(16)*0.8)), (V(15) * VCC_GAIN) , IO_PIN_LEAKAGE) }
+GVEE  4 1 VALUE = { IF((V(12)>=(V(16)*0.8)), (V(4) * VEE_GAIN) , IO_PIN_LEAKAGE) }
+
+GSDA 13 1 VALUE = { 
++   IF(((V(12)>=(V(16)*0.8)) & (V(13) > V_LOGIC_L)), 
++   ((V_LOGIC_MID - (V(16) - V(13))) * VDD_GAIN), 
++   (V(13) / 5) * VDD_GAIN)
++   }
+CSDA 13 1 { IO_PIN_CAP }
+GSCL 14 1 VALUE = {
++   IF(((V(12)>=(V(16)*0.8)) & (V(14) > V_LOGIC_L)), 
++   ((V_LOGIC_MID - (V(16) - V(14))) * VDD_GAIN), 
++   (V(14) / 5) * VDD_GAIN)
++   }
+CSCL 14 1 { IO_PIN_CAP }
+
+RA0   5 19 { IO_LEAKAGE_R }
+CA0   5 19 { IO_PIN_CAP }
+RGA0 19  1 { 1 }
+RA1   3 20 { IO_LEAKAGE_R }
+CA1   3 20 { IO_PIN_CAP }
+RGA1 20  1 { 1 }
+RA2   2 21 { IO_LEAKAGE_R }
+CA2   2 21 { IO_PIN_CAP }
+RGA2 21  1 { 1 }
+
+RCE  12 22 { IO_LEAKAGE_R }
+CCE  12 22 { IO_PIN_CAP }
+RGCE 22  1 { 1 }
+
+RW0 6 17 { R_WIPER }
+RL0 7 17 { R_WIPER * W0_POSITION }
+RH0 8 17 { (1 - R_WIPER) * W0_POSITION }
+RFLOAT0 17 0 { 1E15 }
+
+RW1  9 18 { R_WIPER }
+RL1 10 18 { R_WIPER * W0_POSITION }
+RH1 11 18 { (1 - R_WIPER) * W1_POSITION }
+RFLOAT1 18 0 { 1E15 }
+
+.ENDS DS1882
