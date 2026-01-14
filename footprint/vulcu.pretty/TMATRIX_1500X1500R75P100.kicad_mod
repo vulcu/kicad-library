@@ -3,8 +3,9 @@
 	(generator "pcbnew")
 	(generator_version "9.0")
 	(layer "F.Cu")
+	(descr "Capacitive Touch Matrix Pad")
 	(property "Reference" "REF**"
-		(at 0 -0.5 0)
+		(at -5.5 -8.5 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "986cb615-ecd6-46cc-a43d-c325fa0a5791")
@@ -16,7 +17,7 @@
 		)
 	)
 	(property "Value" "TMATRIX_1500X1500R75P100"
-		(at 0 1 0)
+		(at 0 8.5 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "2a9a4a17-d964-4384-9ba3-5604aecb1e67")
@@ -40,7 +41,7 @@
 			)
 		)
 	)
-	(property "Description" ""
+	(property "Description" "Capacitive Touch Matrix Pad"
 		(at 0 0 0)
 		(unlocked yes)
 		(layer "F.Fab")
@@ -53,9 +54,43 @@
 			)
 		)
 	)
-	(attr smd)
+	(attr smd exclude_from_pos_files exclude_from_bom allow_missing_courtyard
+		dnp
+	)
+	(fp_poly
+		(pts
+			(xy -7.5 -7.5) (xy -7.5 7.5) (xy -7.25 7.5) (xy -7.25 -7) (xy -5.75 -7) (xy -5.75 6.5) (xy -5.25 6.5)
+			(xy -5.25 -7) (xy -3.75 -7) (xy -3.75 6.5) (xy -3.25 6.5) (xy -3.25 -7) (xy -1.75 -7) (xy -1.75 6.5)
+			(xy -1.25 6.5) (xy -1.25 -7) (xy 0.25 -7) (xy 0.25 6.5) (xy 0.75 6.5) (xy 0.75 -7) (xy 2.25 -7) (xy 2.25 6.5)
+			(xy 2.75 6.5) (xy 2.75 -7) (xy 4.25 -7) (xy 4.25 6.5) (xy 4.75 6.5) (xy 4.75 -7) (xy 6.25 -7) (xy 6.25 6.5)
+			(xy 6.75 6.5) (xy 6.75 -7.5)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Cu")
+		(uuid "79d64fd2-0361-4dd5-977b-7c820dff9a85")
+	)
+	(fp_poly
+		(pts
+			(xy 7.5 7.5) (xy 7.5 -7.5) (xy 7.25 -7.5) (xy 7.25 7) (xy 5.75 7) (xy 5.75 -6.5) (xy 5.25 -6.5) (xy 5.25 7)
+			(xy 3.75 7) (xy 3.75 -6.5) (xy 3.25 -6.5) (xy 3.25 7) (xy 1.75 7) (xy 1.75 -6.5) (xy 1.25 -6.5) (xy 1.25 7)
+			(xy -0.25 7) (xy -0.25 -6.5) (xy -0.75 -6.5) (xy -0.75 7) (xy -2.25 7) (xy -2.25 -6.5) (xy -2.75 -6.5)
+			(xy -2.75 7) (xy -4.25 7) (xy -4.25 -6.5) (xy -4.75 -6.5) (xy -4.75 7) (xy -6.25 7) (xy -6.25 -6.5)
+			(xy -6.75 -6.5) (xy -6.75 7.5)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Cu")
+		(uuid "7599f43c-5a02-45de-ad9d-1fd2781c93d7")
+	)
 	(fp_text user "${REFERENCE}"
-		(at 0 2.5 0)
+		(at 0 10 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "084f8d66-cfb2-42bd-bce6-c6dc365f0dc6")
@@ -65,6 +100,18 @@
 				(thickness 0.15)
 			)
 		)
+	)
+	(pad "1" smd rect
+		(at -0.5 0)
+		(size 0.5 1)
+		(layers "F.Cu")
+		(uuid "8a745b12-0e9c-4a59-a2fc-45fff8139a4f")
+	)
+	(pad "2" smd rect
+		(at 0.5 0)
+		(size 0.5 1)
+		(layers "F.Cu")
+		(uuid "a4f74962-734f-4f78-963b-72dcc084d714")
 	)
 	(embedded_fonts no)
 )
